@@ -1,0 +1,27 @@
+---
+- name: Registers
+  hosts: all
+  tasks:
+
+    - name: capture register without a loop
+      shell:
+        cmd: 'echo testing registers without a loop'
+      register: echo_out_noloop
+    - name: pring register without a loop
+      debug:
+        var: echo_out_noloop
+
+    - name: capture register with a loop
+      shell:
+        cmd: "echo Test {{ item }} testing registers with a loop."
+      register: echo_out_wloop
+      loop:
+        - one
+        - two
+    - name: print register with a loop, using only register name 'echo_out_wloop'
+      debug:
+        var: echo_out_wloop
+    - name: print register with a loop, using only register name 'echo_out_wloop.results'
+      debug:
+        var: echo_out_wloop.results
+...
