@@ -1,0 +1,17 @@
+---
+- name: Add LANG line .bashrc
+  lineinfile:
+    dest: "{{ outer_loop }}/.bashrc"
+    regexp: "{{ item.regexp }}"
+    line: "{{ item.line }}"
+    create: true
+    state: absent
+    #    register: out_of_loop
+  loop:
+    - { regexp: '^LC_ALL=', line: 'LC_ALL=C' }
+    - { regexp: '^LANG=', line: 'LANG=C' }
+    - { regexp: '^export LC_ALL LANG', line: 'export LC_ALL LANG' }
+  loop_control:
+    # this helped debuged outer loop
+    label: "{{ outer_loop }}/.bashrc - {{ item.line }}"
+...

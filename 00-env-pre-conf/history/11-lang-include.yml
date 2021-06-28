@@ -1,0 +1,24 @@
+---
+- name: Get users with present home dirs in /home/
+  hosts:
+    - nodes
+  tasks:
+    - name: Capture dirs in /home/
+      shell:
+        cmd: 'find /home/ -mindepth 1 -maxdepth 1 -type d'
+      register: home_users
+
+      #    - name: Print captured paths
+      #      debug:
+      #        #var: home_users
+      #        var: home_users.stdout_lines | type_debug
+
+
+    - name: Fix LANG error
+      include_tasks: 12-inner-lang-loop.yml
+      with_items:
+        - "{{ home_users['stdout_lines'] }}"
+        - [ '/root', '/etc/skel' ]
+      loop_control:
+        loop_var: outer_loop
+...

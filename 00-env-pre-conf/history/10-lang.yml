@@ -1,0 +1,31 @@
+---
+- name: Get users with present home dirs in /home/
+  hosts:
+    - nodes
+  vars:
+    lc_lines:
+      - { regexp: '^LC_ALL=', line: 'LC_ALL=C'  }
+      - { regexp: '^LANG=', line: 'LANG=C'  }
+      - { regexp: '^export LC_ALL LANG', line: 'export LC_ALL LANG' }
+    bashrc_paths:
+      - "{{ home_users['stdout_lines'] }}"
+      - [ '/root' ]
+      - [ '/etc/skel' ]
+
+  tasks:
+    - name: Capture dirs in /home/
+      shell:
+        cmd: 'find /home/ -mindepth 1 -maxdepth 1 -type d'
+      register: home_users
+    
+    - name: Add LANG lines to user's .bashrc
+      lineinfile:
+        dest: "{{ item[1] }}/.bashrc"
+        regexp: "{{ item[0].regexp }}"
+        line: "{{ item[0].line }}"
+        create: true
+        state: present
+      with_nested:
+        - "{{ lc_lines }}"
+        - "{{ bashrc_paths | flatten(1) }}"
+...

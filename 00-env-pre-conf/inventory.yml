@@ -1,0 +1,25 @@
+---
+ungrouped:
+  hosts:
+    control:
+      ansible_host: control
+      ansible_connection: local
+    repo:
+      ansible_host: repo
+      ansible_user: user
+      ansible_password: password
+nodes:
+  hosts:
+    node1:
+      ansible_host: node1
+      ansible_password: password
+    node2:
+      ansible_host: node2
+      ansible_password: password
+    node3:
+      ansible_host: node3
+      ansible_password: password
+    node4:
+      ansible_host: node4
+      ansible_password: password
+...
