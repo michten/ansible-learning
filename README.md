@@ -10,3 +10,4 @@ This play will provide additional configuration to all vagrant hosts:
 - set 'LANG_C' 
 - vim system-wide conf  
 - tmux system-wide conf  
+- create paswordless ssh connection for root between control and nodes

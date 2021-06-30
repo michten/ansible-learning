@@ -18,7 +18,7 @@
       shell:
         cmd: 'find /home/ -mindepth 1 -maxdepth 1 -type d'
       register: home_users_paths
-    
+
     - name: Add LANG lines to user's .bashrc
       lineinfile:
         dest: "{{ item[1] }}/.bashrc"
