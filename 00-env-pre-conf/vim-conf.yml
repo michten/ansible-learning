@@ -1,0 +1,28 @@
+---
+- name: Install and configure vim
+  hosts:
+    - control
+    - nodes
+  vars:
+    vimrc_paths:
+      - "{{ home_users_paths['stdout_lines'] }}"
+      - ['/root']
+      - ['/etc/skel']
+
+  
+  tasks:
+    - name: Install vim
+      dnf:
+        name: vim-enhanced
+        state: present
+
+    - name: Get users from /home/
+      shell:
+        cmd: 'find /home/ -type d -mindepth 1 -maxdepth 1'
+      register: home_users_paths
+    - name: Apply users vim configuration
+      copy:
+        src: vimrc
+        dest: "{{ item }}/.vimrc"
+      loop: "{{ vimrc_paths | flatten(1) }}"
+...

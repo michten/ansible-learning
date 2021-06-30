@@ -1,0 +1,17 @@
+---
+- name: Install and configure tmux
+  hosts:
+    - control
+    - nodes
+  
+  tasks:
+    - name: Install tmux
+      dnf:
+        name: tmux
+        state: present
+
+    - name: Apply tmux system wide configuration
+      copy:
+        src: tmux.conf
+        dest: /etc/tmux.conf
+...

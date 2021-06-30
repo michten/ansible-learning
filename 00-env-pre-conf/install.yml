@@ -1,0 +1,17 @@
+---
+- name: Install additional packages
+  hosts:
+    - nodes
+    - control
+
+  tasks:
+    - name: Install packages
+      dnf:
+        name:
+          - vim-enhanced
+          - tmux
+          - git
+          - rhel-system-roles
+        update_cache: true
+        state: present
+...
