@@ -9,16 +9,17 @@
     - name: X11Forwarding disabled
       lineinfile:
         dest: "{{ sshd_conf }}"
-        regexp: '^X11Forwarding yes$'
+        regexp: '^X11Forwarding '
+        insertafter: '#X11Forwarding'
         line: 'X11Forwarding no'
-        backrefs: true
         state: present
       notify: restart sshd
     
     - name: MaxAuthTries to 3 
       lineinfile:
         dest: "{{ sshd_conf }}"
-        regexp: 'MaxAuthTries '
+        regexp: '^MaxAuthTries '
+        insertafter: '#MaxAuthTries'
         line: 'MaxAuthTries 3'
         state: present
       notify: restart sshd
@@ -26,7 +27,8 @@
     - name: banner to /etc/motd 
       lineinfile:
         dest: "{{ sshd_conf }}"
-        regexp: 'Banner '
+        regexp: '^Banner '
+        insertafter: '#Banner'
         line: 'Banner /etc/motd'
         state: present
       notify: restart sshd
@@ -36,6 +38,4 @@
       service:
         name: sshd
         state: restarted
-
-
-    
+...

@@ -5,7 +5,7 @@
   tasks:
     - name: Change motd file content
       copy:
-        content: "Welcome to HAProxy server of group {{ group_names | to_yaml }}\n"
+        content: "Welcome to HAProxy server of group {{ group_names | to_nice_yaml }}\n"
         dest: /etc/motd
 
 - name: Task 3 - File Content webservers
@@ -25,5 +25,4 @@
       copy:
         content: "Welcome to MySQL server\n"
         dest: /etc/motd
-
 ...
