@@ -5,3 +5,6 @@ set number
 highlight CursorColumn ctermbg=DarkBlue
 "highlight CursorColumn ctermbg=1
 "highlight CursorColumn ctermbg=236
+
+let g:markdown_folding = 1
+au FileType markdown setlocal foldlevel=1

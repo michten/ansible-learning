@@ -1,0 +1,54 @@
+---
+- name: Task 6 - Users and Groups - webservers
+  hosts: webservers
+  become: true
+  vars_files:
+    - secret.yml
+    - user_list.yml
+  tasks:
+    - name: Create users
+      user:
+        name: "{{ item.username }}"
+        uid: "{{ item.uid }}"
+        password: "{{ user_password | password_hash('sha512', 65534 | random(seed=inventory_hostname) | string) }}"
+        shell: /bin/bash
+        groups: wheel
+        append: true
+        state: present
+      when: item.uid|string|first == '1'
+      loop: "{{ users }}"
+    - name: copy ssh key to users authorized_keys
+      authorized_key:
+        user: "{{ item.username}}"
+        key:  "{{ lookup('file','/home/automation/.ssh/id_ed25519.pub') }}"
+        state: present
+      when: item.uid|string|first == '1'
+      loop: "{{ users }}"
+
+
+- name: Task 6 - Users and Groups - database
+  hosts: database
+  become: true
+  vars_files:
+    - secret.yml
+    - user_list.yml
+  tasks:
+    - name: Create users
+      user:
+        name: "{{ item.username }}"
+        uid: "{{ item.uid }}"
+        password: "{{ user_password | password_hash('sha512', 65534 | random(seed=inventory_hostname) | string) }}"
+        shell: /bin/bash
+        groups: wheel
+        append: true
+        state: present
+      when: item.uid|string|first == '2'
+      loop: "{{ users }}"
+    - name: copy ssh key to users authorized_keys
+      authorized_key:
+        user: "{{ item.username}}"
+        key:  "{{ lookup('file','/home/automation/.ssh/id_ed25519.pub') }}"
+        state: present
+      when: item.uid|string|first == '2'
+      loop: "{{ users }}"
+...

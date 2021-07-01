@@ -9,6 +9,7 @@
       dnf:
         name:
           - vim-enhanced
+          - nano
           - tmux
           - git
           - rhel-system-roles

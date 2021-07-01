@@ -1,0 +1,18 @@
+---
+- name: Task 6 - Users and Groups
+  hosts: node1 
+  become: true
+  vars_files:
+    - secret.yml
+    - user_list.yml
+
+  tasks:
+    - name: print from user_list.yml
+      debug:
+        var: users
+        #msg: "{{ users }}"
+
+    - name: print from secret.yml
+      debug:
+        var: user_password
+...
