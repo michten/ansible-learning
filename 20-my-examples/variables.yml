@@ -1,0 +1,22 @@
+---
+- name: Variables
+  hosts: control
+  tasks:
+    - debug:
+        msg: "{{ group_names }}"
+
+    - debug:
+        msg: "{{ groups }}"
+
+    - debug:
+        msg: "{{ inventory_hostname }}"
+
+    - debug:
+        msg: "{{ inventory_hostname_short }}"
+
+    - debug:
+        #msg: "{{ hostvars }}"
+        #msg: "{{ hostvars['control']['ansible_facts'] }}"
+        msg: "{{ hostvars['control']['ansible_local'] }}"
+
+...

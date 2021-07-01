@@ -16,3 +16,11 @@ passwd automation
 
 ## Task 2: Ad-Hoc Commands
 
+### create key
+```
+ssh-keygen -o -a 100 -t ed25519
+```
+
+### adhoc
+- Types of quotes are very important in -a as outside use always double quotes !!!
+- Copy module: NO 'state' parameter !!!

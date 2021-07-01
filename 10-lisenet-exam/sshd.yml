@@ -1,0 +1,41 @@
+---
+- name: Task 4 - Configure SSH Server
+  hosts: all
+  become: true
+  vars:
+    sshd_conf: /etc/ssh/sshd_config
+
+  tasks:
+    - name: X11Forwarding disabled
+      lineinfile:
+        dest: "{{ sshd_conf }}"
+        regexp: '^X11Forwarding yes$'
+        line: 'X11Forwarding no'
+        backrefs: true
+        state: present
+      notify: restart sshd
+    
+    - name: MaxAuthTries to 3 
+      lineinfile:
+        dest: "{{ sshd_conf }}"
+        regexp: 'MaxAuthTries '
+        line: 'MaxAuthTries 3'
+        state: present
+      notify: restart sshd
+    
+    - name: banner to /etc/motd 
+      lineinfile:
+        dest: "{{ sshd_conf }}"
+        regexp: 'Banner '
+        line: 'Banner /etc/motd'
+        state: present
+      notify: restart sshd
+
+  handlers:
+    - name: restart sshd
+      service:
+        name: sshd
+        state: restarted
+
+
+    

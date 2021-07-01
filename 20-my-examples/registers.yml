@@ -1,6 +1,6 @@
 ---
 - name: Registers
-  hosts: all
+  hosts: control
   tasks:
 
     - name: capture register without a loop
