@@ -1,0 +1,80 @@
+---
+- name: tst
+  debug:
+    var: mysql_root_password
+
+- name: Create partition
+  parted:
+    device: "{{ disk_to_create_path }}"
+    number: '1'
+    part_start: "1MB"
+    part_end: "800MB"
+    part_type: primary
+    state: present
+
+- name: Create pv and vg
+  lvg:
+    vg: "{{ vg_name }}"
+    pvs: "/dev/sdb1"        # todo register from above task
+    state: present
+
+- name: create lv
+  lvol:
+    lv: "{{ lv_name }}"
+    vg: "{{ vg_name }}"
+    size: "512M"
+    state: present
+
+- name: create filesystem
+  filesystem:
+    dev: "/dev/mapper/{{ vg_name }}-{{ lv_name }}"
+    fstype: "xfs"
+
+- name: mount fs
+  mount:
+    src: "/dev/mapper/{{ vg_name }}-{{ lv_name }}"
+    path: "{{ path_to_mount }}"
+    fstype: xfs
+    state: mounted
+
+    #- name: disable default MySQL module
+    #  ini_file:
+    #    path: /etc/dnf/modules.d/mysql.module
+    #    section: mysql
+    #    option: state
+    #    value: disabled
+    #    no_extra_spaces: yes
+
+- name: install MariaDB
+  dnf:
+    name:
+      - mariadb-server
+      #- mysql-community-server
+      - python3-PyMySQL
+    state: present
+  notify: set db passwd
+
+- name: set firewall rules
+  firewalld:
+    port: 3306/tcp
+    immediate: true
+    permanent: true
+    state: enabled
+
+- name: mariadb service
+  service:
+    name: mariadb
+    #name: mysqld
+    enabled: true
+    state: started
+
+- name: copy template
+  template:
+    src: "my.cnf.j2"
+    dest: "/etc/my.cnf"
+    #dest: "/root/.my.cnf"
+    force: true
+    #owner: mysql
+    #group: mysql
+  notify: restart mariadb
+...

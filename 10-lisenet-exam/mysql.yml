@@ -1,0 +1,9 @@
+---
+- name: Task 9 - Create and Work with Roles
+  hosts: database
+  become: true
+  vars_files:
+    - secret.yml
+  roles:
+    - role: sample-mysql
+...

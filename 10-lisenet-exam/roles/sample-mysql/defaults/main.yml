@@ -1,0 +1,7 @@
+---
+disk_to_create_path: "/dev/sdb"
+vg_name: "vg_database"
+lv_name: "lv_mysql"
+path_to_mount: "/mnt/mysql_backups"
+mysql_root_password: "{{ database_password }}"
+...

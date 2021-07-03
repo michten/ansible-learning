@@ -1,0 +1,17 @@
+---
+- name: restart mariadb
+  service:
+    name: mariadb
+    #name: mysqld
+    state: restarted
+
+- name: set db passwd
+  mysql_user:
+    user: root
+    password: "{{ mysql_root_password }}"
+    login_unix_socket: '/var/lib/mysql/mysql.sock'
+    login_user: root
+    login_password: ''
+    #login_password: After this task passwd will be changed to mysql_root_password
+    state: present
+...

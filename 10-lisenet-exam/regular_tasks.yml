@@ -1,0 +1,13 @@
+---
+- name: Task 7 - Scheduled Tasks
+  hosts: proxy
+  become: true
+  tasks:
+    - name: add crontab entry for root
+      cron:
+        name: task7
+        user: root
+        special_time: hourly
+        job: "date >> /var/log/time.log"
+        state: present
+...
