@@ -5,12 +5,6 @@
     name: "{{ pkg_list }}"
     state: present
 
-- name: start apache
-  service:
-    name: httpd
-    state: started
-    enabled: true
-
 - name: set firewall
   firewalld:
     port: '80/tcp'
@@ -29,6 +23,32 @@
   template:
     src: index.html.j2
     dest: /var/www/html/index.html
-    force: true
-  notify: restart apache
+    #force: true
+
+- name: create {{ systemd_unit_name }}.service
+  copy:
+    src: "{{ systemd_unit_name + '.service'}}"
+    dest: "{{ systemd_unit_installation_path + systemd_unit_name + '.service' }}"
+
+- name: create {{ systemd_unit_name }}.path
+  template:
+    src: "{{ systemd_unit_name + '.path.j2'}}"
+    dest: "{{ systemd_unit_installation_path + systemd_unit_name + '.path' }}"
+
+- name: Reload systemd daemon
+  service:
+    daemon_reload: true
+
+- name: enable {{ systemd_unit_name }}.path
+  service:
+    name: "{{ systemd_unit_name + '.service' }}"
+    # stopped on purpose, this unit should be started via WantedBy in path unit
+    state: stopped
+    enabled: true
+
+- name: start apache
+  service:
+    name: httpd
+    state: started
+    enabled: true
 ...

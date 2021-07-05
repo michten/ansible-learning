@@ -19,4 +19,7 @@
         #msg: "{{ hostvars['control']['ansible_facts'] }}"
         msg: "{{ hostvars['control']['ansible_local'] }}"
 
+    - debug:
+        msg: "{{ inventory_hostname_short + '/path/' + '.extension' }}"
+
 ...
