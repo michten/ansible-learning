@@ -1,28 +1,13 @@
 ---
-- name: Task 3 - File Content proxy
-  hosts: proxy
+- name: Task 3 - File Content
+  hosts: all
   become: true
   tasks:
-    - name: Change motd file content
-      copy:
-        content: "Welcome to HAProxy server of group {{ group_names | to_nice_yaml }}\n"
+    - name: copy motd template
+      template:
+        src: motd.j2
         dest: /etc/motd
-
-- name: Task 3 - File Content webservers
-  hosts: webservers
-  become: true
-  tasks:
-    - name: Change motd file content
-      copy:
-        content: "Welcome to Apache server\n"
-        dest: /etc/motd
-
-- name: Task 3 - File Content database
-  hosts: database
-  become: true
-  tasks:
-    - name: Change motd file content
-      copy:
-        content: "Welcome to MySQL server\n"
-        dest: /etc/motd
+        owner: root
+        group: root
+        mode: 0444
 ...

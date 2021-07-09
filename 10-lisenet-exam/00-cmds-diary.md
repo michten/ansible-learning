@@ -4,6 +4,11 @@ https://www.lisenet.com/2019/ansible-sample-exam-for-ex294/
 
 ### tmux + vim configuration
 ```/etc/tmux.conf
+syntax on
+filetype plugin indent on
+autocmd Filetype yaml setlocal ai sw=2 ts=2 sts=2 et cuc cul
+set number
+highlight CursorColumn ctermbg=darkblue
 ```
 ```~/.vimrc
 set -g prefix `
