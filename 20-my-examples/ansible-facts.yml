@@ -1,0 +1,7 @@
+---
+- name: ans facts
+  hosts: control
+  tasks:
+    - debug:
+        var: ansible_facts['memory_mb']['nocache']
+...

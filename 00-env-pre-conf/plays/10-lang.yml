@@ -18,6 +18,8 @@
       shell:
         cmd: 'find /home/ -mindepth 1 -maxdepth 1 -type d'
       register: home_users_paths
+      #this would always result changed
+      changed_when: false
 
     - name: Add LANG lines to user's .bashrc
       lineinfile:

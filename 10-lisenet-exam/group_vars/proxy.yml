@@ -1,3 +1,6 @@
 ---
 motd_info: HAProxy
+package_list:
+  - tcpdump
+  - mailx
 ...

@@ -8,6 +8,10 @@ ungrouped:
       ansible_host: repo
       ansible_user: user
       ansible_password: password
+      become: true
+      #become_allow_same_user: true
+      #become_ask_pass: true
+      ask_sudo_pass: true
 nodes:
   hosts:
     node1:

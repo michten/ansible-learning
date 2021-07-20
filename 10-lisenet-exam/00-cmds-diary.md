@@ -57,7 +57,7 @@ check sshd.yml
 check secret.yml and vault_key  
 
 - first create file with password
-#### create vault
+### create vault
 * basic
 ```
 ansible_vault create --vault-id=task6@vault_key secret.yml    # basic, seem be the best with ID name (task6)
@@ -74,7 +74,7 @@ ansible_vault create --vault-id=value_key secret.yml          # no ID, path to f
 Available options in ansible.cfg:              (more in ansible-config list) 
 - vault_identity         name of vault_id
 - vault_password_file    absolut path of password file, with vault_id_match need right vault_identity name above
-- vault_identity_list    list of pairs vault_id@path/to/pass-file separated by comma ,    Instead of two aobve
+- vault_identity_list    list of pairs vault_id@path/to/pass-file separated by comma ','    Instead of two above
 - vault_id_match         Unless this is set to true, ansible will try every pass-file from list above, even from another vault_id
 
 ansible.cfg in [defaults] section may contain e.g lines:  

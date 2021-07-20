@@ -1,0 +1,19 @@
+---
+- name: play with failed_when
+  hosts: control
+  gather_facts: false
+  vars:
+    switch_variable: dobrze
+    #switch_variable: zle
+  tasks:
+    - name: task 1
+      command: /bin/true
+      ignore_errors: true
+      changed_when: false
+      failed_when: switch_variable == 'zle'
+    
+    - name: task 2
+      command: /bin/true
+      changed_when: false
+      failed_when: switch_variable != 'zle'
+...

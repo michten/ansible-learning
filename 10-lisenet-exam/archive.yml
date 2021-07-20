@@ -1,0 +1,27 @@
+---
+- name: Task 14 - Use Archiving
+  hosts: database
+  gather_facts: false
+  become: true
+  vars:
+    dir_path: '/mnt/mysql_backups'
+    file_to_archive_path: "{{ dir_path }}/database_list.txt"
+    archive_path: '/mnt/mysql_backups/archive.gz'
+  
+  tasks:
+
+    - name: create dir
+      file:
+        dest: "{{ dir_path }}"
+        state: directory
+    - name: create a file
+      copy:
+        content: 'dev,test,qa,prod'
+        dest: "{{ file_to_archive_path }}"
+
+    - name: archive a file
+      archive:
+        path: "{{ file_to_archive_path }}"
+        dest: "{{ archive_path }}"
+
+...

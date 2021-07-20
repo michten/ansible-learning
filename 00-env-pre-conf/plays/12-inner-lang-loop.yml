@@ -11,7 +11,7 @@
     - { regexp: '^LC_ALL=', line: 'LC_ALL=C' }
     - { regexp: '^LANG=', line: 'LANG=C' }
     - { regexp: '^export LC_ALL LANG', line: 'export LC_ALL LANG' }
+  # this helped debuged outer loop
   loop_control:
-    # this helped debuged outer loop
     label: "{{ outer_loop }}/.bashrc - {{ item.line }}"
 ...

@@ -1,0 +1,21 @@
+---
+- name: Task 17 - Services
+  hosts: webservers
+  become: true
+  vars:
+    #mode: link
+    mode: shell
+  tasks:
+    - name: create sym link to enable desired target
+      file:
+        #src: /usr/lib/systemd/system/multi-user.target
+        src: /usr/lib/systemd/system/graphical.target
+        dest: /etc/systemd/system/default.target
+        state: link
+        force: true
+      when: mode == "link"
+
+    - name: change target using shell module
+      shell: "systemctl set-default multi-user.target"
+      when: mode == "shell"
+...

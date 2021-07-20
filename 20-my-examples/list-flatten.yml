@@ -1,0 +1,56 @@
+---
+- name: loops play
+  hosts: control
+  gather_facts: false
+  vars:
+    list_one:
+      - ['one1','two2','three3']
+      - ['anotherone1']
+      - ['anothertwo2']
+    list_two:
+      - [[qq,ww,ee],[aa,ss,dd]]
+      - [sub11,[zzz,xxx,[ooooooo,ppppppp]]]
+      - [sub12]
+      - [sub21]
+      - [sub22]
+      - { smth: 'smthvar' , smth2: 'smthvar2' }
+
+  tasks:
+    - debug:
+        var: list_one
+    # var vs msg no difference here
+    #- debug:
+    #    msg: "{{ list_one }}"
+
+    - debug:
+        var: list_one | flatten
+
+
+    - name: no flatten
+      debug:
+        var: list_two
+
+    - name: flatten
+      debug:
+        var: list_two | flatten
+
+    - name: flatten(1)
+      debug:
+        var: list_two | flatten(levels=1)
+
+    - name: flatten(2)
+      debug:
+        var: list_two | flatten(levels=2)
+
+    - name: flatten(3)
+      debug:
+        var: list_two | flatten(levels=3)
+
+    - name: list_two type_debug
+      debug:
+        var: list_two | type_debug
+
+    - name: flatten - without parameter will flatten to end
+      debug:
+        var: list_two | flatten
+...

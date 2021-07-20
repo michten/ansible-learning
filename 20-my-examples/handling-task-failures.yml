@@ -1,0 +1,62 @@
+---
+- name: 'play 1 force_handlers and ignore_errors'
+  # This play would run the same with only 'ignore_errors: true' but without 'force_handlers: true', so handlers would be run too.
+  force_handlers: true
+  ignore_errors: true
+  gather_facts: false
+  hosts: control
+  pre_tasks:
+    - name: 'pretask true with notify'
+      command: /bin/true
+      notify: handler1
+
+    - name: 'pretask false'
+      command: /bin/false
+
+    - name: "pretask true2"
+      command: /bin/true
+
+  tasks:
+    - name: 'task true with notify'
+      command: /bin/true
+      notify: handler1
+
+    - name: 'task false'
+      command: /bin/false
+
+  handlers:
+    - name: handler1
+      shell: 'echo this is handler one'
+
+
+
+- name: 'play 2 force_handlers only'
+  # here without 'ignore_errors' handlers will be started ofter failed task
+  force_handlers: true
+  gather_facts: false
+  hosts: control
+  pre_tasks:
+    - name: 'pretask true with notify'
+      command: /bin/true
+      notify: handler2
+
+    - name: 'pretask false'
+      command: /bin/false
+
+      # won't run
+    - name: "pretask true2 should not run without 'ignore_errors'"
+      command: /bin/true
+
+  # won't run
+  tasks:
+    - name: 'task true with notify'
+      command: /bin/true
+      notify: handler2
+
+    - name: 'task false'
+      command: /bin/false
+
+  handlers:
+    - name: handler2
+      shell: 'echo this is handler one'
+...

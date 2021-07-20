@@ -1,0 +1,14 @@
+---
+- name: Task 15 - Work with Ansible Facts
+  hosts: database
+  become: true
+  vars:
+    facts_path: /etc/ansible/facts.d/custom
+  tasks:
+    - file:
+        dest: "{{ facts_path }}"
+        state: directory
+    - copy:
+        content: 'server_role=mysql'
+        dest: "{{ facts_path }}/sample_exam.fact"
+...

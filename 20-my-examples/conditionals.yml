@@ -1,0 +1,14 @@
+---
+- name: conditionals
+  hosts: node1
+  vars:
+  tasks:
+    - debug:
+        msg: memtotal is more than 800MB and swap more than 2000MB
+      when: >
+        ( ansible_memtotal_mb >= 800 and
+          ansible_swaptotal_mb >= 2000 )
+        and
+        ( ansible_os_family == 'RedHat' )
+        
+...

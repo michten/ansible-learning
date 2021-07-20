@@ -1,7 +1,11 @@
 ---
 - name: Variables
   hosts: control
+  #gather_facts: false
   tasks:
+    - debug:
+        msg: "{{ ansible_facts['ansible_mounts'] }}"
+
     - debug:
         msg: "{{ group_names }}"
 

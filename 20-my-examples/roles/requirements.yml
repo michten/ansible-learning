@@ -1,0 +1,7 @@
+---
+- src: geerlingguy.gitlab
+  #scm: git
+  #version:
+
+- src: linux-system-roles.storage
+  name: my-storage

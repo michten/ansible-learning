@@ -1,0 +1,15 @@
+---
+- name: Task 16 - Software Packages
+  hosts: all
+  become: true
+  ignore_errors: true
+  gather_facts: false
+  tasks:
+    - name: install package
+      yum:
+        name: "{{ package_list | default(omit) }}"
+        state: present
+      when: > 
+           'database' in group_names or 
+           'proxy' in group_names
+...

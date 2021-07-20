@@ -1,7 +1,8 @@
 syntax on
 filetype plugin indent on
-autocmd Filetype yaml setlocal ai sw=2 ts=2 sts=2 et cuc cul
+autocmd Filetype yml setlocal ai sw=2 ts=2 sts=2 et cuc cul
 set number
+colorscheme peachpuff
 highlight CursorColumn ctermbg=DarkBlue
 "highlight CursorColumn ctermbg=1
 "highlight CursorColumn ctermbg=236

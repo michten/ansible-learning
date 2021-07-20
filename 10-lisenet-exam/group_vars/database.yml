@@ -1,3 +1,6 @@
 ---
 motd_info: MySQL
+package_list:
+  - lsof
+  - mailx
 ...

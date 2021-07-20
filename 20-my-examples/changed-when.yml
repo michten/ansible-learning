@@ -1,0 +1,45 @@
+---
+- name: play with changed_when and ansible facts
+  hosts: node1
+  ignore_errors: true
+  vars:
+    facts_d_path: /etc/ansible/facts.d/
+    script_name: exit_statuses.sh
+    exit_status: [ '0' , '1' , '255' ]
+  tasks:
+
+    - name: create facts.d dir
+      become: true
+      file:
+        dest: "{{ facts_d_path }}"
+        state: directory
+
+    - name: copy script
+      become: true
+      copy:
+        src: files/{{ script_name }}
+        dest: "{{ facts_d_path }}"
+        mode: '0700'
+        owner: automation
+        group: automation
+        force: true
+
+    - name: 'run script in loop without changed_when'
+      command: "{{ facts_d_path + script_name + ' ' + item }}" 
+      loop: "{{ exit_status }}"
+
+    - name: 'run script in loop with changed_when false'
+      command: "{{ facts_d_path + script_name + ' ' + item }}" 
+      changed_when: false
+      loop: "{{ exit_status }}"
+
+    - name: run script in loop with changed_when set to
+      command: "{{ facts_d_path + script_name + ' ' + '255' }}" 
+      register: script_output
+      changed_when: "255 is in script_output.rc"
+      #loop: "{{ exit_status }}"
+
+    - debug:
+        msg: "{{ script_output.rc }}"
+      #msg: "{{ script_output }}"
+...

@@ -1,0 +1,30 @@
+---
+- name: play with dumb block
+  hosts: control
+  gather_facts: false
+  vars:
+    main_block_fail: true
+  tasks:
+    - name: task with block
+      block:
+        - name: first task in block
+          command: /bin/true
+          changed_when: false
+
+        - name: second task in block that shoud fail
+          command: /bin/false
+          ignore_errors: true
+          when: main_block_fail
+
+        - name: third task in block
+          command: /bin/true
+          changed_when: false
+
+      rescue:
+        - name: rescue block task
+          command: /bin/true
+
+      always:
+        - name: always block task
+          command: /bin/true
+...

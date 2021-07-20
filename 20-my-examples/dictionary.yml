@@ -1,0 +1,25 @@
+---
+- name: dictionary
+  hosts: control
+  gather_facts: false
+  vars:
+    dict_one:
+      thiskey1: value1
+      key2: value2
+      key3: value3
+  tasks:
+    - name: print dict
+      debug:
+        var: dict_one
+    - name: show dict type
+      debug:
+        var: dict_one | type_debug
+    
+    
+    - name: print flatten dict
+      debug:
+        var: dict_one | flatten
+    - name: show flatten dict type
+      debug:
+        var: dict_one | flatten | type_debug
+...

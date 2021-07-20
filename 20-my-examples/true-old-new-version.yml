@@ -1,0 +1,20 @@
+---
+- name: ture - in newer ansible version
+  hosts: control
+  gather_facts: false
+  vars:
+    cond_one: false
+    cond_two: true
+  tasks:
+    - name: this connditional check works on ansible 2.8.5
+      command: /bin/true
+      changed_when: false
+      when: cond_one
+    
+    - name: this connditional check works on newer ansible versions only
+      command: /bin/true
+      changed_when: false
+      when: cond_one is true
+...
+
+

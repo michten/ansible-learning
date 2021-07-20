@@ -1,0 +1,12 @@
+---
+- name: test user_list.yml
+  hosts: control
+  gather_facts: false
+  vars_files: user_list.yml
+  tasks:
+    - debug:
+        var: users
+    
+    - debug:
+        var: users | type_debug
+...
