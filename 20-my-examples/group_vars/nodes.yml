@@ -1,10 +1,12 @@
 ---
 timesync_ntp_servers:
-  - hostname: 0.de.pool.ntp.org
+  - hostname: 0.pl.pool.ntp.org
     iburst: yes
-  - hostname: 1.de.pool.ntp.org
+  - hostname: 1.pl.pool.ntp.org
     iburst: yes
-  - hostname: 2.de.pool.ntp.org
+  - hostname: 2.pl.pool.ntp.org
     iburst: yes
-timezone: Europe/Berlin
+  - hostname: 3.pl.pool.ntp.org
+    iburst: yes
+timezone_var: 'Europe/Warsaw'
 ...

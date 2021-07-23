@@ -1,11 +1,13 @@
 ---
-- name: set time play
+- name: set ntp servers
   hosts: nodes
   become: true
+  #gather_facts: false
   roles:
     - rhel-system-roles.timesync
+
   tasks:
     - name: set timezone
       timezone:
-        name: "{{ timezone }}"
+        name: "{{ timezone_var }}"
 ...

@@ -1,0 +1,16 @@
+---
+- name: Task 18 - Create and Use Templates to Create Customised Configuration Files
+  hosts: database
+  become: true
+  vars:
+  tasks:
+    - name: create template
+      template:
+        src: server_list.j2
+        dest: /etc/server_list.txt
+        owner: automation
+        group: automation
+        mode: '0600'
+        setype: 'net_conf_t'
+        force: yes
+...

@@ -60,9 +60,9 @@ check secret.yml and vault_key
 ### create vault
 * basic
 ```
-ansible_vault create --vault-id=task6@vault_key secret.yml    # basic, seem be the best with ID name (task6)
-ansible_vault create --vault-id=task6@prompt secret.yml       # basic with ID, prompt for pass
-ansible_vault create --vault-id=value_key secret.yml          # no ID, path to file with password
+ansible-vault create --vault-id=task6@vault_key secret.yml    # basic, seem be the best with ID name (task6)
+ansible-vault create --vault-id=task6@prompt secret.yml       # basic with ID, prompt for pass
+ansible-vault create --vault-id=value_key secret.yml          # no ID, path to file with password
               encrypt
               view
               edit

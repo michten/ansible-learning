@@ -1,0 +1,8 @@
+---
+- name: hostvars play
+  hosts: webservers
+  tasks:
+    - name: print hostvars
+      debug:
+        var: hostvars
+...

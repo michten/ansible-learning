@@ -8,4 +8,5 @@ pkg_list:
 systemd_unit_name: restart-httpd
 systemd_path_to_monitor: /var/www/html/index.html
 systemd_unit_installation_path: /usr/lib/systemd/system/
+#systemd_unit_installation_path: /etc/systemd/system/      should be change to this
 ...

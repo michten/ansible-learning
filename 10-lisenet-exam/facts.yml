@@ -3,12 +3,14 @@
   hosts: database
   become: true
   vars:
-    facts_path: /etc/ansible/facts.d/custom
+    facts_path: /etc/ansible/facts.d
   tasks:
     - file:
         dest: "{{ facts_path }}"
         state: directory
     - copy:
-        content: 'server_role=mysql'
-        dest: "{{ facts_path }}/sample_exam.fact"
+        content: |
+          [sample_exam]
+          server_role=mysql
+        dest: "{{ facts_path }}/custom.fact"
 ...
