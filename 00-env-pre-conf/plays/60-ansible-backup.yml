@@ -1,0 +1,34 @@
+---
+- name: backup and remove bundled ansible in this enviroment
+  hosts: control
+  vars:
+          bundled_ansible_path: /usr/local/bin/
+          backup_ansible_path: /root/bundled-ansible/
+  gather_facts: false
+  
+  tasks:
+          - name: create destanation folder
+            file:
+                    dest: "{{ backup_ansible_path }}"
+                    state: directory
+
+          - name: get files to move
+            command: "find /usr/local/bin/ -iname 'ansible*' -o -iname 'pip*'"
+            changed_when: false
+            register: files_to_move
+
+          - name: copy files
+            copy:
+                    src: "{{ item }}"
+                    dest: "{{ backup_ansible_path }}"
+                    remote_src: true
+            loop: "{{ files_to_move['stdout_lines'] }}"
+
+          - name: remove files
+            file:
+                    dest: "{{ item }}"
+                    state: absent
+            loop: "{{ files_to_move['stdout_lines'] }}"
+          
+          #TODO: move '/usr/local/lib/python3.6/site-packages/' too
+...

@@ -20,6 +20,7 @@
       shell:
         cmd: 'find /home/ -type d -mindepth 1 -maxdepth 1'
       register: home_users_paths
+      changed_when: false
     - name: Apply users vim configuration
       copy:
         src: vimrc

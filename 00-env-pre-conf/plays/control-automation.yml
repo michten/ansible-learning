@@ -1,0 +1,6 @@
+---
+- name: set automation user for control
+  hosts: control
+  tasks:
+
+...

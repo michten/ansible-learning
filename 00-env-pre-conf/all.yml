@@ -1,0 +1,10 @@
+---
+- import_playbook: plays/10-lang.yml
+- import_playbook: plays/20-install.yml
+- import_playbook: plays/30-tmux-conf.yml
+- import_playbook: plays/40-vim-conf.yml
+- import_playbook: plays/50-passwordless-ssh.yml
+  #- import_playbook:
+  #- import_playbook:
+  #- import_playbook:
+...
