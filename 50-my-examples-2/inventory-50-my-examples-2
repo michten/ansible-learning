@@ -1,0 +1,16 @@
+control ansible_connection=local
+
+[proxy]
+node1
+
+[webservers]
+node2
+node3
+
+[database]
+node4
+
+[nodes:children]
+proxy
+webservers
+database

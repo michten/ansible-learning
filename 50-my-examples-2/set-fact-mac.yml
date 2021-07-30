@@ -1,0 +1,18 @@
+---
+- name: print network interfaces
+  hosts: nodes
+  become: true
+  vars:
+          my_fact_path: '/etc/ansible/facts.d/'
+  tasks:
+          - name:
+            file:
+                    dest: "{{ my_fact_path }}"
+                    state: directory
+
+          - name: print macaddresses
+            template:
+                    src: mac-gen.j2
+                    dest: "{{ my_fact_path + 'hw_network.fact' }}"
+                    force: true
+...

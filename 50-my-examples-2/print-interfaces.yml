@@ -1,0 +1,11 @@
+---
+- name: print network interfaces
+  hosts: nodes
+  vars:
+  tasks:
+          - name: print macaddresses
+            debug:
+                    var: ansible_facts[item]['macaddress']
+            when: ansible_facts[item]['macaddress'] is defined
+            loop: "{{ ansible_facts['interfaces'] }}"
+...

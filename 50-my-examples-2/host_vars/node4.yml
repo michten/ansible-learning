@@ -1,0 +1,17 @@
+---
+mac0: "08:00:27:ec:6d:66"
+mac1: "08:00:27:a8:a7:2c"
+mac2: "08:00:27:a2:9d:9d"
+mac3: "08:00:27:2a:35:ba"
+
+
+network_connections:
+  - name: lab_conn
+    state: up
+    type: ethernet
+    mac: "{{ mac2 }}"
+    ip:
+      dhcp4: no
+      address:
+        - "192.168.22.44/24"
+...

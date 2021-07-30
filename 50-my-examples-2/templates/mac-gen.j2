@@ -1,0 +1,6 @@
+[host_macaddresses]  
+{% for value in ansible_facts['interfaces'] %}
+{% if ansible_facts[value]['macaddress'] is defined %}
+mac{{ loop.index0 }}={{ ansible_facts[value]['macaddress'] }}
+{% endif %}
+{% endfor %}

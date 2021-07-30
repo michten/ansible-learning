@@ -1,0 +1,7 @@
+---
+- name: Managing Network Services
+  hosts: nodes
+  become: true
+  roles:
+    - rhel-system-roles.network
+...
