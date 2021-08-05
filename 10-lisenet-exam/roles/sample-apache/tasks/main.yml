@@ -7,37 +7,38 @@
 
 - name: set firewall
   firewalld:
-    port: '80/tcp'
+    port: "{{ item }}"
     permanent: true
     immediate: true
     state: enabled
+  loop:
+    - '80/tcp'
+    - '443/tcp'
 
-- name: set firewall
-  firewalld:
-    port: '443/tcp'
-    permanent: true
-    immediate: true
-    state: enabled
+    #- name: set firewall
+    #  firewalld:
+    #    port: '443/tcp'
+    #    permanent: true
+    #    immediate: true
+    #    state: enabled
 
-- name: copy template
+- name: copy index.html template
   template:
     src: index.html.j2
     dest: /var/www/html/index.html
-    #force: true
 
 - name: create {{ systemd_unit_name }}.service
   copy:
     src: "{{ systemd_unit_name + '.service'}}"
     dest: "{{ systemd_unit_installation_path + systemd_unit_name + '.service' }}"
+  notify: reload-systemd
 
 - name: create {{ systemd_unit_name }}.path
   template:
     src: "{{ systemd_unit_name + '.path.j2'}}"
     dest: "{{ systemd_unit_installation_path + systemd_unit_name + '.path' }}"
-
-- name: Reload systemd daemon
-  service:
-    daemon_reload: true
+  notify: reload-systemd
+- meta: flush_handlers
 
 - name: enable {{ systemd_unit_name }}.path
   service:
