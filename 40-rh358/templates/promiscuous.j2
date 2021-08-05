@@ -1,0 +1,14 @@
+[Unit]
+Description=Makes an interface run in promiscuous mode at boot
+After=network.target
+
+[Service]
+Type=oneshot
+{% for iface in if_names %}
+ExecStart=/usr/sbin/ip link set dev {{ iface }} promisc on
+{% endfor %}
+TimeoutStartSec=0
+RemainAfterExit=yes
+
+[Install]
+WantedBy=default.target

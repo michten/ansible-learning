@@ -1,0 +1,33 @@
+---
+# solution from: https://www.lisenet.com/2016/configure-aggregated-network-links-on-rhel-7-bonding-and-teaming/
+- name: set promiscuous mode on interfaces using systemd
+  hosts: nodes
+  become: yes
+  gather_facts: false
+  vars:
+          service_name: promiscuous
+          if_names:
+                  - eth2
+                  - eth3
+  tasks:
+
+          - name: create systemd services from template
+            template:
+                    src: "{{ service_name + '.j2' }}"
+                    dest: "{{ '/etc/systemd/system/' + service_name + '.service' }}"
+                    force: true
+            notify: reload-systemd
+          - meta: flush_handlers
+
+          - name: start service
+            service:
+                    name: "{{ service_name }}"
+                    state: started
+                    enabled: true
+
+
+  handlers:
+          - name: reload-systemd
+            systemd:
+                    daemon_reload: true
+...
