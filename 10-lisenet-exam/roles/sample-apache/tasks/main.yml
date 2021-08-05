@@ -35,14 +35,16 @@
 
 - name: enable {{ systemd_unit_name }}.path
   service:
-    name: "{{ systemd_unit_name + '.service' }}"
-    # stopped on purpose, this unit should be started via WantedBy in path unit
-    state: stopped
+    name: "{{ systemd_unit_name + '.path' }}"
     enabled: true
 
-- name: start apache
+- name: enable and restart apache
   service:
     name: httpd
-    state: started
+    # state: started works different then systemctl start httpd.service
+    # and it wont start WantedBy path unit above, so best solution is to always restart service
+    state: restarted
     enabled: true
+
+# TODO: fail when {{ systemd_unit_name }}.path is not started
 ...

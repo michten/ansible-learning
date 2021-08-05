@@ -7,6 +7,6 @@ pkg_list:
 # Configuration of systemd Unit for restarting httpd when file change
 systemd_unit_name: restart-httpd
 systemd_path_to_monitor: /var/www/html/index.html
-systemd_unit_installation_path: /usr/lib/systemd/system/
-#systemd_unit_installation_path: /etc/systemd/system/      should be change to this
+#systemd_unit_installation_path: /usr/lib/systemd/system/      # MAINTAINER PATH
+systemd_unit_installation_path: /etc/systemd/system/
 ...
