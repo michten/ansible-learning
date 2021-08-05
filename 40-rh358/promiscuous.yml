@@ -1,5 +1,6 @@
 ---
 # solution from: https://www.lisenet.com/2016/configure-aggregated-network-links-on-rhel-7-bonding-and-teaming/
+# and here: https://www.thegeekdiary.com/how-to-configure-interfaces-in-promiscuous-mode-on-centos-rhel-7-persistently/
 - name: set promiscuous mode on interfaces using systemd
   hosts: nodes
   become: yes
