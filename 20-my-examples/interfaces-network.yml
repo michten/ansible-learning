@@ -1,0 +1,20 @@
+---
+- name: get interface info
+  hosts: nodes
+  tasks:
+          - name: interface list
+            debug:
+                    var: ansible_facts['interfaces']
+
+                    #- name: interface eth0
+                    #  debug:
+                    #          var: ansible_facts['eth0']
+
+          - name: loop over interfaces
+            debug:
+                    var: ansible_facts[item]['ipv4']['address']
+            loop: "{{ ansible_facts['interfaces'] }}"
+            when:
+                    - item != "lo"
+                    - ansible_facts[item]['ipv4']['address'] is defined
+...

@@ -2,6 +2,8 @@
 - name: Managing Network Services
   hosts: nodes
   become: true
+  vars:
+          # no vars here, this play may use specific roles vars from host_vars dir
   roles:
     - rhel-system-roles.network
 ...

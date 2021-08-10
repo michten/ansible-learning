@@ -1,0 +1,29 @@
+# SPDX-License-Identifier: BSD-3-Clause
+---
+- hosts: nodes
+  become: true
+  vars:
+    master_connection: team0
+    network_connections:
+      - name: "{{ master_connection }}"
+        state: down
+        persistent_state: absent
+
+      - name: team0-eth2
+        state: down
+        persistent_state: absent
+
+      - name: team0-eth3
+        state: down
+        persistent_state: absent
+
+  tasks:
+          - name: remove team connection
+            include_role:
+                    name: rhel-system-roles.network
+            when: ansible_facts[master_connection] is defined
+
+          - name: disable team interface
+            command: /usr/bin/nmcli dev del {{ master_connection }}
+            when: ansible_facts[master_connection] is defined
+...

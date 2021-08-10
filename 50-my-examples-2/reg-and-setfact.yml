@@ -1,0 +1,29 @@
+---
+- name: show if variables
+  hosts: node3
+  become: true
+  vars:
+  tasks:
+          #- name: show if
+          #  debug:
+          #          var: ansible_facts['team0-if']
+          
+
+          - name:
+            command: /usr/bin/teamdctl team0 state dump
+            register: nmcli_out
+
+          - name:
+            set_fact:
+                    #team0_fact: "{{ nmcli_out['stdout_lines'] }}"
+                    team0_fact: "{{ nmcli_out.stdout }}"
+
+          - name:
+            debug:
+                    var: team0_fact['setup']['runner_name']
+                    #var: team0_fact['stdout']['setup']
+                    #var: nmcli_out['stdout']['setup']['runner_name']
+          - name: 
+            debug:
+                    var: ansible_facts['team0']
+...

@@ -1,0 +1,58 @@
+# SPDX-License-Identifier: BSD-3-Clause
+---
+- hosts: nodes
+  become: true
+  vars:
+    master_connection: team0
+    master_runner: activebackup
+    network_connections:
+      - name: "{{ master_connection }}"
+        state: up
+        type: team
+        interface_name: "{{ master_connection }}"
+        ip:
+          address: "{{ team0_static_ip }}"
+
+      - name: "{{ master_connection + '-eth2' }}"
+        state: up
+        type: ethernet
+        #interface_name: eth1
+        mac: "{{ mac2 }}"
+        controller: "{{ master_connection }}"
+
+      - name: "{{ master_connection + '-eth3' }}"
+        state: up
+        type: ethernet
+        mac: "{{ mac3 }}"
+        #interface_name: eth2
+        controller: "{{ master_connection }}"
+
+  tasks:
+          - name: network role
+            include_role:
+                    name: rhel-system-roles.network
+            when: ansible_facts[master_connection] is undefined
+
+          - name: get team state
+            command: /usr/bin/teamdctl {{ master_connection }} state dump
+            register: team0_state
+            changed_when: false
+          
+          - name: set fact JSON
+            set_fact:
+                    team0_json: "{{ team0_state.stdout }}"
+
+          - name: change team runner
+            command: /usr/bin/nmcli con mod {{ master_connection }} team.runner {{ master_runner }}
+            notify: conn-restart
+            when: team0_json['setup']['runner_name'] != master_runner
+
+  handlers:
+          - name: conn down
+            command: /usr/bin/nmcli con down {{ master_connection }}
+            listen: conn-restart
+
+          - name: conn up
+            command: /usr/bin/nmcli con up {{ master_connection }}
+            listen: conn-restart
+...
