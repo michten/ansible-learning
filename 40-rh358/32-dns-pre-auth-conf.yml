@@ -1,0 +1,32 @@
+---
+- hosts: nodes
+  become: true
+  vars:
+    dns_nat_network: 10.0.8.11
+    gateway_nat_network: 10.0.6.1
+    gateway_nat2_network: 10.0.8.1
+    network_connections:
+      # Specify the dummy profile
+      - name: eth2-nat
+        state: up
+        type: ethernet
+        #interface_name: eth2
+        mac: "{{ mac2 }}"
+        ip:
+          address: "{{ addr_mac2 }}"
+          dns: "{{ dns_nat_network }}"
+          gateway4: "{{ gateway_nat_network }}"
+
+      - name: eth3-nat
+        state: up
+        type: ethernet
+        #interface_name: eth3
+        mac: "{{ mac3 }}"
+        ip:
+          address: "{{ addr_mac3 }}"
+          dns: "{{ dns_nat_network }}"
+          gateway4: "{{ gateway_nat2_network }}"
+
+  roles:
+    - rhel-system-roles.network
+...

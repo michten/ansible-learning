@@ -1,5 +1,7 @@
 control ansible_connection=local
 
+jumphost ansible_host=repo ansible_user=user ansible_password=password
+
 [proxy]
 node1
 
@@ -15,3 +17,6 @@ node1
 node2
 node3
 node4
+
+[jump_nodes]
+node[1:4]

@@ -1,0 +1,13 @@
+---
+- name: frverre
+  var:
+          - srfetg
+          - wefrew
+  tasks:
+          - name: task on
+            module:
+                    par: erfe
+                    fr: rfewrf
+                    frfrefr: rewfrwf
+
+...

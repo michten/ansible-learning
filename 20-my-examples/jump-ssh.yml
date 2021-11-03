@@ -1,0 +1,49 @@
+---
+# On one of subnets/interfaces create ssh jump scenario.
+- name: Create ssh priv key on node1 - future jump host
+  hosts: jumphost
+  vars:
+       key_for_user: user
+       ssh_path: '/home/user/.ssh/'
+       key_comment: 'jump2nodes'
+  tasks:
+       - name: ensure dir exist
+         file:
+              path: "{{ssh_path }}"
+              state: directory
+              owner: "{{ key_for_user }}"
+              group: "{{ key_for_user }}"
+              mode: '0700'
+
+       - name: create ssh key
+         openssh_keypair:
+              path: "{{ ssh_path + '/' + key_comment }}"
+              comment: "{{ key_comment }}"
+              # force: true
+              mode: '0400'
+              owner: "{{ key_for_user }}"
+              group: "{{ key_for_user }}"
+              type: ed25519
+              state: present
+         register: openssh_output
+
+       - name: create fact from register
+         # TRICK: Create var accessible for different hosts in another play in playbook
+         add_host:
+              name: 'var_holder'
+              pubkey_fact: "{{ openssh_output }}"
+              # below: export user name to declare it once in first play
+              # key_for_user: "{{ key_for_user }}"
+         changed_when: false
+
+- name: add ssh key to rest of nodes
+  hosts: jump_nodes
+  vars:
+  tasks:
+       - name: deploy ssh pub key
+         authorized_key:
+              comment: "{{ hostvars['var_holder']['pubkey_fact']['comment'] }}"
+              key:     "{{ hostvars['var_holder']['pubkey_fact']['public_key'] }}"
+              # user:    "{{ hostvars['var_holder']['key_for_user'] }}"
+              user: automation
+...

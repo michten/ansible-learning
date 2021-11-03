@@ -1,0 +1,19 @@
+---
+- hosts: nodes
+  become: true
+  vars:
+    dns_nat_network: 10.0.2.11
+    gateway_nat_network: 10.0.2.2
+    network_connections:
+      # Specify the dummy profile
+      - name: eth2-nat
+        state: down
+        persistent_state: absent
+
+     #- name: eth3-nat
+     #  state: down
+     #  persistent_state: absent
+
+  roles:
+    - rhel-system-roles.network
+...

@@ -1,0 +1,10 @@
+---
+- name: test conncetion
+  hosts: nodes
+  gather_facts: false
+  vars:
+          test_to_host_ip: 192.168.22.1
+  tasks:
+          - name: ping host
+            command: ping -c1 -w2 {{ test_to_host_ip }}
+...

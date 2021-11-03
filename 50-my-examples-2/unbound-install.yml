@@ -1,0 +1,15 @@
+---
+- name: instal unbound
+  hosts:
+          - nodes
+          - control
+  gather_facts: false
+  become: true
+  tasks:
+          - yum:
+                  name:
+                          - unbound
+                          - mtr
+                          - bind
+                  state: present
+...

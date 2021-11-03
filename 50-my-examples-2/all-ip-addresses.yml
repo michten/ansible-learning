@@ -1,0 +1,21 @@
+---
+- name: print all addresses
+  hosts: node1
+  tasks:
+          - name: print all IPs
+            debug:
+                    var: ansible_facts['all_ipv4_addresses']
+
+          - name: print fact type
+            debug:
+                    var: ansible_facts['selinux']['config_mode'] | type_debug
+            register: fact_output
+
+          - name: setfact
+            set_fact:
+                    fact_from_var: "{{ fact_output }}"
+
+          - name: print fact
+            debug:
+                    var: fact_from_var | type_debug
+...

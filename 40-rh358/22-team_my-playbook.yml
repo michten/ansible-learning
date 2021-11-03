@@ -11,7 +11,10 @@
         type: team
         interface_name: "{{ master_connection }}"
         ip:
+          dhcp4: no
+          auto6: no
           address: "{{ team0_static_ip }}"
+          #dns: 192.168.22.11
 
       - name: "{{ master_connection + '-eth2' }}"
         state: up
