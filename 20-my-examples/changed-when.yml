@@ -36,7 +36,7 @@
     - name: run script in loop with changed_when set to
       command: "{{ facts_d_path + script_name + ' ' + '255' }}" 
       register: script_output
-      changed_when: "255 is in script_output.rc"
+      changed_when: "255 in script_output.rc"
       #loop: "{{ exit_status }}"
 
     - debug:
