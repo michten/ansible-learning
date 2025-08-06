@@ -1,0 +1,22 @@
+---
+- name: Create list from string and add/modify scheme in uri
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  vars:
+    #url_list_or_string: 'wp.pl'
+    #url_list_or_string: 'file://onet.pl'
+    url_list_or_string: ['wp.pl','file://onet.pl', 'data://interia.pl:443']
+    #empty_list: ['sth.here']
+    empty_list: []
+
+  tasks:
+
+    - name: Print created var
+      ansible.builtin.debug:
+        var: empty_list + [ url_list_or_string ] | flatten
+
+    - name: Print random
+      ansible.builtin.debug:
+        msg: "{{ 'https://' + ( empty_list + [ url_list_or_string ] | flatten ) | random | regex_replace('(?P<scheme>.*://)(?P<hostname>.+)', '\\g<hostname>') }}"
+...
